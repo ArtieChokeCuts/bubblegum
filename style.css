@@ -1,0 +1,266 @@
+:root {
+  color-scheme: dark;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #050505;
+  color: #f4cf78;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  min-height: 100svh;
+  overflow-x: hidden;
+  background: #050505;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.stage {
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+.player-shell {
+  width: min(100%, 56.25svh, 2160px);
+}
+
+.player-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  isolation: isolate;
+  container-type: inline-size;
+  overflow: hidden;
+  background: #050505;
+  touch-action: manipulation;
+}
+
+.layer {
+  position: absolute;
+  display: block;
+  max-width: 100%;
+  height: auto;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.cassette {
+  z-index: 10;
+  left: 14.8148%;
+  top: 16.6667%;
+  width: 70.3704%;
+}
+
+.spool {
+  z-index: 20;
+  top: 25%;
+  width: 14.8148%;
+  aspect-ratio: 1;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+.spool-left {
+  left: 27.7778%;
+}
+
+.spool-right {
+  left: 57.4074%;
+}
+
+.spool.is-spinning {
+  animation: spool-spin 1.25s linear infinite;
+}
+
+.spool-right.is-spinning {
+  animation-duration: 1.08s;
+}
+
+@keyframes spool-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.metadata-panel {
+  position: absolute;
+  z-index: 30;
+  left: 36.5741%;
+  top: 34.6354%;
+  width: 26.8519%;
+  height: 4.1667%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  align-items: center;
+  gap: 0;
+  min-width: 0;
+  padding: 0.22cqi 0.65cqi 0.3cqi;
+  overflow: hidden;
+  color: #f6d47f;
+  text-align: center;
+  text-shadow: 0 1px 0 #000;
+}
+
+.metadata-kicker {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.4cqi;
+  min-width: 0;
+  color: #c6932f;
+  font-size: clamp(5px, 1.15cqi, 18px);
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.track-title {
+  min-width: 0;
+  overflow: hidden;
+  color: #ffe2a0;
+  font-size: clamp(9px, 2.9cqi, 34px);
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.track-title.long-title {
+  font-size: clamp(7px, 2.1cqi, 26px);
+}
+
+.timeline {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.35cqi;
+  min-width: 0;
+  color: #c6932f;
+  font-size: clamp(5px, 0.98cqi, 15px);
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  line-height: 1;
+}
+
+#seekControl {
+  width: 100%;
+  height: clamp(4px, 0.45cqi, 7px);
+  margin: 0;
+  padding: 0;
+  appearance: none;
+  border: 1px solid #8c651d;
+  border-radius: 2px;
+  outline: none;
+  background: #2b210f;
+  cursor: pointer;
+}
+
+#seekControl::-webkit-slider-thumb {
+  width: clamp(5px, 0.65cqi, 10px);
+  height: clamp(5px, 0.65cqi, 10px);
+  appearance: none;
+  border: 1px solid #ffe2a0;
+  border-radius: 50%;
+  background: #c6932f;
+}
+
+#seekControl::-moz-range-thumb {
+  width: clamp(5px, 0.65cqi, 10px);
+  height: clamp(5px, 0.65cqi, 10px);
+  border: 1px solid #ffe2a0;
+  border-radius: 50%;
+  background: #c6932f;
+}
+
+.bezel {
+  z-index: 40;
+  inset: 0;
+  width: 100%;
+}
+
+.control-hitbox {
+  position: absolute;
+  z-index: 50;
+  top: 84.8958%;
+  width: 11.6%;
+  height: 7.7083%;
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 8%;
+  outline: 0;
+  background: transparent;
+  color: transparent;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.control-hitbox:hover {
+  background: rgb(255 219 133 / 8%);
+}
+
+.control-hitbox:active {
+  background: rgb(0 0 0 / 10%);
+  transform: scale(0.975);
+}
+
+.control-hitbox:focus-visible {
+  outline: clamp(2px, 0.35cqi, 6px) solid #fff0bd;
+  outline-offset: calc(clamp(2px, 0.35cqi, 6px) * -1.5);
+}
+
+.previous-control {
+  left: 11.1111%;
+}
+
+.play-control {
+  left: 26.3889%;
+}
+
+.stop-control {
+  left: 41.6667%;
+}
+
+.next-control {
+  left: 56.9444%;
+}
+
+.download-control {
+  left: 72.2222%;
+}
+
+#audioPlayer {
+  display: none;
+}
+
+noscript {
+  position: fixed;
+  inset: auto 1rem 1rem;
+  z-index: 100;
+  padding: 0.75rem;
+  background: #151515;
+  color: #fff;
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spool.is-spinning {
+    animation-duration: 4s;
+  }
+}
