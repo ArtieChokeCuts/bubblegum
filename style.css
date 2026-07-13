@@ -21,6 +21,22 @@ body {
   background: #050505;
 }
 
+html:fullscreen,
+html:-webkit-full-screen {
+  overflow: hidden;
+}
+
+html:fullscreen body,
+html:-webkit-full-screen body {
+  overflow: hidden;
+}
+
+html:fullscreen .stage,
+html:-webkit-full-screen .stage {
+  min-height: 100vh;
+  padding: 0;
+}
+
 button,
 input {
   font: inherit;

@@ -1,0 +1,26 @@
+{
+  "id": "./",
+  "name": "Bubblegum Death Wish",
+  "short_name": "Bubblegum",
+  "description": "Bubblegum Death Wish by ARTIECHOKE",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "display_override": [
+    "fullscreen",
+    "standalone",
+    "minimal-ui",
+    "browser"
+  ],
+  "orientation": "portrait-primary",
+  "background_color": "#050505",
+  "theme_color": "#070707",
+  "icons": [
+    {
+      "src": "assets/asset_C_gold_spool_320.png",
+      "sizes": "320x320",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

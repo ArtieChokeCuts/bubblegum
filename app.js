@@ -103,6 +103,43 @@ const tickerItems = [...document.querySelectorAll(".ticker-item")];
 
 let currentIndex = 0;
 let seeking = false;
+let fullscreenRequestPending = false;
+let fullscreenRequestSettled = window.matchMedia("(display-mode: fullscreen), (display-mode: standalone)").matches
+  || window.navigator.standalone === true;
+
+function getFullscreenElement() {
+  return document.fullscreenElement
+    || document.webkitFullscreenElement
+    || document.msFullscreenElement
+    || null;
+}
+
+async function requestAppFullscreen() {
+  if (fullscreenRequestSettled || fullscreenRequestPending || getFullscreenElement()) {
+    return;
+  }
+
+  const target = document.documentElement;
+  const request = target.requestFullscreen
+    || target.webkitRequestFullscreen
+    || target.msRequestFullscreen;
+
+  if (!request) {
+    fullscreenRequestSettled = true;
+    return;
+  }
+
+  fullscreenRequestPending = true;
+  try {
+    await request.call(target);
+    window.scrollTo(0, 0);
+    fullscreenRequestSettled = true;
+  } catch (error) {
+    // Browsers may reject until a later user gesture; keep the next tap eligible.
+  } finally {
+    fullscreenRequestPending = false;
+  }
+}
 
 function wrapIndex(index) {
   return (index + tracks.length) % tracks.length;
@@ -203,6 +240,9 @@ playControl.addEventListener("click", playTrack);
 stopControl.addEventListener("click", stopTrack);
 nextControl.addEventListener("click", () => changeTrack(1));
 
+document.addEventListener("pointerup", requestAppFullscreen, { capture: true });
+document.addEventListener("touchend", requestAppFullscreen, { capture: true, passive: true });
+
 seekControl.addEventListener("input", () => {
   seeking = true;
   if (Number.isFinite(audio.duration)) {
@@ -236,6 +276,9 @@ audio.addEventListener("error", () => {
 });
 
 document.addEventListener("keydown", (event) => {
+  if (!event.repeat) {
+    requestAppFullscreen();
+  }
   if (event.target instanceof HTMLInputElement) {
     return;
   }
