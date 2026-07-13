@@ -94,6 +94,7 @@ const playControl = document.querySelector("#playControl");
 const stopControl = document.querySelector("#stopControl");
 const nextControl = document.querySelector("#nextControl");
 const downloadControl = document.querySelector("#downloadControl");
+const fullscreenControl = document.querySelector("#fullscreenControl");
 const linerTrackNumber = document.querySelector("#linerTrackNumber");
 const linerScroll = document.querySelector("#linerScroll");
 const linerCopy = document.querySelector("#linerCopy");
@@ -114,24 +115,26 @@ function getFullscreenElement() {
     || null;
 }
 
-async function requestAppFullscreen() {
-  if (fullscreenRequestSettled || fullscreenRequestPending || getFullscreenElement()) {
+async function requestAppFullscreen(force = false) {
+  if ((!force && fullscreenRequestSettled) || fullscreenRequestPending || getFullscreenElement()) {
     return;
   }
 
   const target = document.documentElement;
-  const request = target.requestFullscreen
-    || target.webkitRequestFullscreen
-    || target.msRequestFullscreen;
+  const standardRequest = target.requestFullscreen;
+  const request = standardRequest || target.webkitRequestFullscreen || target.msRequestFullscreen;
 
   if (!request) {
-    fullscreenRequestSettled = true;
     return;
   }
 
   fullscreenRequestPending = true;
   try {
-    await request.call(target);
+    if (standardRequest) {
+      await standardRequest.call(target, { navigationUI: "hide" });
+    } else {
+      await request.call(target);
+    }
     window.scrollTo(0, 0);
     fullscreenRequestSettled = true;
   } catch (error) {
@@ -139,6 +142,28 @@ async function requestAppFullscreen() {
   } finally {
     fullscreenRequestPending = false;
   }
+}
+
+function updateFullscreenControl() {
+  const active = Boolean(getFullscreenElement());
+  const label = active ? "Exit full screen" : "Enter full screen";
+  fullscreenControl.classList.toggle("is-active", active);
+  fullscreenControl.setAttribute("aria-label", label);
+  fullscreenControl.title = label;
+}
+
+async function toggleAppFullscreen() {
+  const active = getFullscreenElement();
+  if (active) {
+    const exit = document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen;
+    if (exit) {
+      await exit.call(document);
+    }
+    return;
+  }
+
+  fullscreenRequestSettled = false;
+  await requestAppFullscreen(true);
 }
 
 function wrapIndex(index) {
@@ -240,8 +265,13 @@ playControl.addEventListener("click", playTrack);
 stopControl.addEventListener("click", stopTrack);
 nextControl.addEventListener("click", () => changeTrack(1));
 
-document.addEventListener("pointerup", requestAppFullscreen, { capture: true });
-document.addEventListener("touchend", requestAppFullscreen, { capture: true, passive: true });
+fullscreenControl.addEventListener("click", (event) => {
+  event.stopPropagation();
+  toggleAppFullscreen();
+});
+document.addEventListener("click", () => requestAppFullscreen());
+document.addEventListener("fullscreenchange", updateFullscreenControl);
+document.addEventListener("webkitfullscreenchange", updateFullscreenControl);
 
 seekControl.addEventListener("input", () => {
   seeking = true;
