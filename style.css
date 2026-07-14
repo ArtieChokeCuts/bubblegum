@@ -266,30 +266,6 @@ input {
   pointer-events: none;
 }
 
-.brand-title {
-  position: absolute;
-  z-index: 45;
-  top: 6.8%;
-  left: 14.5%;
-  width: 71%;
-  height: 5.8%;
-  display: grid;
-  place-items: center;
-  overflow: hidden;
-  border: max(1px, 0.12cqi) solid #4b402c;
-  border-radius: 2px;
-  background: #252421;
-  color: #f1c76e;
-  font-size: clamp(15px, 5.2cqi, 112px);
-  font-weight: 800;
-  letter-spacing: 0;
-  line-height: 1;
-  text-align: center;
-  text-shadow: 0 0.18cqi 0 #5f4214;
-  white-space: nowrap;
-  pointer-events: none;
-}
-
 .fullscreen-control {
   position: absolute;
   z-index: 55;
