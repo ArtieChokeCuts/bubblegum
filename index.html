@@ -12,39 +12,41 @@
   <title>Bubblegum Death Wish | ARTIECHOKE</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="assets/asset_C_gold_spool_320.png">
-  <link rel="preload" href="assets/asset_A_matte_black_bezel_2160x3840.png" as="image">
-  <link rel="preload" href="assets/asset_B_clean_gold_cassette_1520x960.png" as="image">
-  <link rel="stylesheet" href="style.css">
+  <link rel="preload" href="assets/skin_v2_chassis.jpg" as="image">
+  <link rel="preload" href="assets/skin_v2_cassette.jpg" as="image">
+  <link rel="preload" href="assets/skin_v2_reel.jpg" as="image">
+  <link rel="stylesheet" href="style.css?v=skin-v2">
 </head>
 <body>
   <main class="stage">
     <section class="player-shell" aria-label="Bubblegum Death Wish album player">
       <div class="player-frame" id="playerFrame">
         <img
-          class="layer cassette"
-          src="assets/asset_B_clean_gold_cassette_1520x960.png"
-          alt=""
-          width="1520"
-          height="960"
+          class="layer chassis"
+          src="assets/skin_v2_chassis.jpg"
+          alt="ARTIECHOKE Stereo, Bubblegum Death Wish cassette player"
+          width="720"
+          height="1280"
           draggable="false"
         >
 
+        <div class="cassette-bay" aria-hidden="true"></div>
+
         <img
-          class="layer spool spool-left"
-          src="assets/asset_C_gold_spool_320.png"
+          class="layer cassette"
+          src="assets/skin_v2_cassette.jpg"
           alt=""
-          width="320"
-          height="320"
+          width="1280"
+          height="809"
           draggable="false"
         >
-        <img
-          class="layer spool spool-right"
-          src="assets/asset_C_gold_spool_320.png"
-          alt=""
-          width="320"
-          height="320"
-          draggable="false"
-        >
+
+        <span class="layer spool spool-left" aria-hidden="true">
+          <img src="assets/skin_v2_reel.jpg" alt="" width="1280" height="1280" draggable="false">
+        </span>
+        <span class="layer spool spool-right" aria-hidden="true">
+          <img src="assets/skin_v2_reel.jpg" alt="" width="1280" height="1280" draggable="false">
+        </span>
 
         <div class="metadata-panel" aria-live="polite" aria-atomic="true">
           <div class="metadata-kicker">
@@ -59,14 +61,7 @@
           </div>
         </div>
 
-        <img
-          class="layer bezel"
-          src="assets/asset_A_matte_black_bezel_2160x3840.png"
-          alt="ARTIECHOKE Stereo, Bubblegum Death Wish cassette player"
-          width="2160"
-          height="3840"
-          draggable="false"
-        >
+        <div class="cassette-window-trim" aria-hidden="true"></div>
 
         <div class="brand-title" aria-hidden="true">ARTIECHOKE STEREO</div>
         <button class="fullscreen-control" id="fullscreenControl" type="button" aria-label="Enter full screen" title="Enter full screen">
@@ -109,6 +104,6 @@
   </main>
 
   <noscript>JavaScript is required to operate this player.</noscript>
-  <script src="app.js"></script>
+  <script src="app.js?v=skin-v2"></script>
 </body>
 </html>

@@ -74,28 +74,78 @@ input {
   -webkit-user-drag: none;
 }
 
+.chassis {
+  z-index: 1;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  clip-path: inset(1.9% 4.25% 2% 4.25% round 5% 5% 4% 4%);
+}
+
+.cassette-bay {
+  position: absolute;
+  z-index: 5;
+  top: 16.2%;
+  left: 13.1%;
+  width: 73.8%;
+  height: 29.5%;
+  border-radius: 4%;
+  background: #151310;
+  pointer-events: none;
+}
+
 .cassette {
   z-index: 10;
-  left: 14.8148%;
-  top: 16.6667%;
-  width: 70.3704%;
+  left: 13.6%;
+  top: 16.4%;
+  width: 72.8%;
+  height: 28.8%;
+  max-width: none;
+  object-fit: cover;
+  clip-path: inset(3.5% 2.5% 4% 2.5% round 5%);
 }
 
 .spool {
   z-index: 20;
-  top: 25%;
-  width: 14.8148%;
+  top: 25.25%;
+  width: 18%;
   aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 50%;
+  background: #11100e;
   transform-origin: center center;
   will-change: transform;
 }
 
+.spool img {
+  position: absolute;
+  inset: -5%;
+  width: 110%;
+  height: 110%;
+  max-width: none;
+  border-radius: 50%;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.spool::after {
+  position: absolute;
+  inset: 38.5%;
+  border: max(1px, 0.16cqi) solid #8a641e;
+  border-radius: 50%;
+  background: #11100e;
+  content: "";
+}
+
 .spool-left {
-  left: 27.7778%;
+  left: 25.55%;
 }
 
 .spool-right {
-  left: 57.4074%;
+  left: 57.35%;
 }
 
 .spool.is-spinning {
@@ -115,10 +165,10 @@ input {
 .metadata-panel {
   position: absolute;
   z-index: 30;
-  left: 36.5741%;
-  top: 34.6354%;
-  width: 26.8519%;
-  height: 4.1667%;
+  left: 35.8%;
+  top: 36.15%;
+  width: 28.4%;
+  height: 4.55%;
   display: grid;
   grid-template-rows: auto 1fr auto;
   align-items: center;
@@ -203,25 +253,34 @@ input {
   background: #c6932f;
 }
 
-.bezel {
-  z-index: 40;
-  inset: 0;
-  width: 100%;
+.cassette-window-trim {
+  position: absolute;
+  z-index: 35;
+  top: 16.45%;
+  left: 13.55%;
+  width: 72.9%;
+  height: 28.75%;
+  border: max(1px, 0.26cqi) solid rgb(176 123 36 / 72%);
+  border-radius: 4%;
+  box-shadow: inset 0 0 0 max(1px, 0.18cqi) rgb(0 0 0 / 78%);
+  pointer-events: none;
 }
 
 .brand-title {
   position: absolute;
   z-index: 45;
-  top: 7.25%;
-  left: 16%;
-  width: 68%;
-  height: 4.9%;
+  top: 6.8%;
+  left: 14.5%;
+  width: 71%;
+  height: 5.8%;
   display: grid;
   place-items: center;
   overflow: hidden;
-  background: #222325;
+  border: max(1px, 0.12cqi) solid #4b402c;
+  border-radius: 2px;
+  background: #252421;
   color: #f1c76e;
-  font-size: clamp(15px, 5.65cqi, 122px);
+  font-size: clamp(15px, 5.2cqi, 112px);
   font-weight: 800;
   letter-spacing: 0;
   line-height: 1;
@@ -234,9 +293,9 @@ input {
 .fullscreen-control {
   position: absolute;
   z-index: 55;
-  top: 1.95%;
-  right: 2.75%;
-  width: 10.6%;
+  top: 2.2%;
+  right: 5.3%;
+  width: 8.5%;
   aspect-ratio: 1;
   display: grid;
   place-items: center;
@@ -308,10 +367,10 @@ input {
 .liner-notes {
   position: absolute;
   z-index: 45;
-  top: 43.2%;
+  top: 46.4%;
   left: 13.2%;
   width: 73.6%;
-  height: 35.2%;
+  height: 34.1%;
   display: grid;
   grid-template-rows: auto minmax(0, 1fr) auto;
   min-width: 0;
@@ -438,9 +497,9 @@ input {
 .control-hitbox {
   position: absolute;
   z-index: 50;
-  top: 84.8958%;
-  width: 11.6%;
-  height: 7.7083%;
+  top: 85.75%;
+  width: 12.5%;
+  height: 8.35%;
   display: block;
   margin: 0;
   padding: 0;
@@ -468,23 +527,23 @@ input {
 }
 
 .previous-control {
-  left: 11.1111%;
+  left: 10.9%;
 }
 
 .play-control {
-  left: 26.3889%;
+  left: 25.7%;
 }
 
 .stop-control {
-  left: 41.6667%;
+  left: 40.5%;
 }
 
 .next-control {
-  left: 56.9444%;
+  left: 55.3%;
 }
 
 .download-control {
-  left: 72.2222%;
+  left: 70.1%;
 }
 
 #audioPlayer {
