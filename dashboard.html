@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#070707">
+  <title>Dashboard | Bubblegum Death Wish</title>
+  <link rel="stylesheet" href="dashboard.css?v=1.0">
+  <link rel="apple-touch-icon" href="assets/asset_C_gold_spool_320.png">
+</head>
+<body>
+  <div class="dash-container">
+    <!-- Top Header -->
+    <header class="dash-header">
+      <div class="header-brand">
+        <span class="brand-sub">ARTIECHOKE STEREO // BUBBLEGUM DEATH WISH</span>
+        <h1 class="brand-title">Deck Telemetry & Play Counter</h1>
+      </div>
+      <div class="header-actions">
+        <div class="live-badge" id="liveBadge" style="display: none;">
+          <span class="live-dot"></span>
+          <span>LIVE MONITORING</span>
+        </div>
+        <a href="index.html" class="nav-btn" target="_blank" title="Open Cassette Player">
+          <span>Cassette Deck</span> ↗
+        </a>
+        <div id="authContainer">
+          <button id="signInBtn" class="action-btn primary-btn" type="button">
+            <span>Sign In with Google</span>
+          </button>
+          <div id="userInfo" class="user-info" style="display: none;">
+            <span id="userEmail" class="user-email"></span>
+            <button id="signOutBtn" class="action-btn outline-btn" type="button">Sign Out</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Setup Notice Banner (shown only if Firebase config placeholder is detected) -->
+    <div id="setupBanner" class="setup-banner" style="display: none;">
+      <div class="banner-icon">⚠️</div>
+      <div class="banner-content">
+        <h3>Firebase Configuration Pending</h3>
+        <p>Your Firebase project credentials are not yet pasted into <code>firebase-config.js</code>. Once you add your project's Web App keys, real-time play counts will automatically stream here.</p>
+      </div>
+    </div>
+
+    <!-- Auth Protected Content -->
+    <main id="dashMain">
+      <!-- Signed Out / Access Denied State -->
+      <section id="authPrompt" class="auth-card">
+        <div class="auth-card-inner">
+          <div class="tape-counter-graphic">
+            <span>0</span><span>0</span><span>0</span>
+          </div>
+          <h2>Private Owner Terminal</h2>
+          <p id="authMessage">Sign in with your authorized Google Account (<code>artiechokecuts@gmail.com</code>) to access the album play counter and listening telemetry.</p>
+          <button id="promptSignInBtn" class="action-btn large-btn gold-btn" type="button">
+            Sign In with Google
+          </button>
+        </div>
+      </section>
+
+      <!-- Dashboard View (Shown once authenticated as admin) -->
+      <section id="dashView" class="dashboard-view" style="display: none;">
+        <!-- Filter Controls -->
+        <div class="filter-bar">
+          <span class="filter-label">TIMEFRAME:</span>
+          <div class="filter-pills" id="timeFilter">
+            <button type="button" class="pill active" data-range="all">All Time</button>
+            <button type="button" class="pill" data-range="30d">Last 30 Days</button>
+            <button type="button" class="pill" data-range="7d">Last 7 Days</button>
+            <button type="button" class="pill" data-range="24h">Last 24 Hours</button>
+          </div>
+          <div class="filter-spacer"></div>
+          <button id="refreshBtn" class="action-btn outline-btn icon-btn" title="Refresh data">
+            ⟳ Refresh
+          </button>
+        </div>
+
+        <!-- Metric Cards -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-label">TOTAL PLAYS</div>
+            <div class="metric-value counter-text" id="totalPlays">--</div>
+            <div class="metric-sub" id="playsSub">Valid listens (≥10s)</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">UNIQUE LISTENERS</div>
+            <div class="metric-value counter-text" id="uniqueListeners">--</div>
+            <div class="metric-sub" id="listenersSub">Distinct user sessions</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">COMPLETIONS</div>
+            <div class="metric-value counter-text" id="totalCompletions">--</div>
+            <div class="metric-sub" id="completionRate">0% retention rate</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">DOWNLOADS</div>
+            <div class="metric-value counter-text" id="totalDownloads">--</div>
+            <div class="metric-sub" id="downloadsSub">Tracks saved to device</div>
+          </div>
+        </div>
+
+        <!-- Content Layout: Leaderboard & Realtime Stream -->
+        <div class="content-grid">
+          <!-- Track Performance Leaderboard -->
+          <div class="panel leaderboard-panel">
+            <div class="panel-header">
+              <h2>Track Leaderboard</h2>
+              <span class="panel-sub" id="trackCountLabel">13 Tracks</span>
+            </div>
+            <div class="table-wrap">
+              <table class="tracks-table">
+                <thead>
+                  <tr>
+                    <th class="col-rank">#</th>
+                    <th class="col-title">Track</th>
+                    <th class="col-bar">Share</th>
+                    <th class="col-plays">Plays</th>
+                    <th class="col-complete">Done</th>
+                    <th class="col-dl">DL</th>
+                  </tr>
+                </thead>
+                <tbody id="tracksTableBody">
+                  <!-- Injected via JavaScript -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Live Activity Stream -->
+          <div class="panel activity-panel">
+            <div class="panel-header">
+              <h2>Live Activity Reel</h2>
+              <span class="pulse-indicator">● Active</span>
+            </div>
+            <div class="activity-scroll" id="activityFeed">
+              <div class="empty-feed" id="emptyFeedMessage">Awaiting incoming telemetry...</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script type="module" src="dashboard.js?v=1.0"></script>
+</body>
+</html>

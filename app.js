@@ -1,5 +1,7 @@
 "use strict";
 
+import { tracker } from "./tracker.js";
+
 const tracks = [
   {
     title: "daylight",
@@ -215,6 +217,7 @@ function resetTimeline() {
 function loadTrack(index, autoplay = false) {
   currentIndex = wrapIndex(index);
   const track = tracks[currentIndex];
+  tracker.setTrack(currentIndex + 1, track.title);
   setSpinning(false);
   renderTrack();
   resetTimeline();
@@ -264,6 +267,10 @@ previousControl.addEventListener("click", () => changeTrack(-1));
 playControl.addEventListener("click", playTrack);
 stopControl.addEventListener("click", stopTrack);
 nextControl.addEventListener("click", () => changeTrack(1));
+downloadControl.addEventListener("click", () => {
+  const track = tracks[currentIndex];
+  tracker.logDownload(currentIndex + 1, track.title);
+});
 
 fullscreenControl.addEventListener("click", (event) => {
   event.stopPropagation();
@@ -295,11 +302,17 @@ audio.addEventListener("loadedmetadata", () => {
 audio.addEventListener("durationchange", () => {
   duration.textContent = formatTime(audio.duration);
 });
-audio.addEventListener("timeupdate", updateTimeline);
+audio.addEventListener("timeupdate", () => {
+  updateTimeline();
+  tracker.onTimeUpdate(audio.currentTime, audio.duration);
+});
 audio.addEventListener("play", () => setSpinning(true));
 audio.addEventListener("playing", () => setSpinning(true));
 audio.addEventListener("pause", () => setSpinning(false));
-audio.addEventListener("ended", () => loadTrack(currentIndex + 1, true));
+audio.addEventListener("ended", () => {
+  tracker.onEnded();
+  loadTrack(currentIndex + 1, true);
+});
 audio.addEventListener("error", () => {
   setSpinning(false);
   duration.textContent = "ERR";

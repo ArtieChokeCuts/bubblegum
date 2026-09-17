@@ -1,0 +1,53 @@
+rules_version = '2';
+
+// ===============================================================
+// Assumed Data Model
+// ===============================================================
+//
+// Collection: plays
+// Document ID: auto-generated
+// Fields:
+//   - trackId: int (required, 1-13)
+//   - trackTitle: string (required, 1-100 chars)
+//   - eventType: string (required, "play" | "complete" | "download")
+//   - timestamp: timestamp (required)
+//   - sessionId: string (required, 1-64 chars)
+//   - durationPlayed: number (optional, seconds listened)
+//   - device: string (optional, "iOS" | "Android" | "Mac" | "Windows" | "Other")
+//   - referrer: string (optional, max 200 chars)
+//
+// ===============================================================
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && (
+        request.auth.token.email == 'artiechokecuts@gmail.com'
+      );
+    }
+
+    function isValidPlay(data) {
+      return data.keys().hasAll(['trackId', 'trackTitle', 'eventType', 'timestamp', 'sessionId'])
+        && data.trackId is int && data.trackId >= 1 && data.trackId <= 13
+        && data.trackTitle is string && data.trackTitle.size() > 0 && data.trackTitle.size() <= 100
+        && data.eventType in ['play', 'complete', 'download']
+        && data.sessionId is string && data.sessionId.size() > 0 && data.sessionId.size() <= 64
+        && data.timestamp is timestamp;
+    }
+
+    match /plays/{playId} {
+      allow create: if isValidPlay(request.resource.data);
+      allow read: if isAdmin();
+      allow update, delete: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
