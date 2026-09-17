@@ -1,6 +1,6 @@
 // Firebase configuration for Bubblegum Death Wish
 export const firebaseConfig = {
-  apiKey: "AIzaSyAFE-0_4CVLua6_BwF2dy15KzwFtwpCICU",
+  apiKey: "AIzaSyAFE-0_4CVLua6_BwF2dy15KzwFtWpCICU",
   authDomain: "bubblegum-death-wish-7bd31.firebaseapp.com",
   projectId: "bubblegum-death-wish-7bd31",
   storageBucket: "bubblegum-death-wish-7bd31.firebasestorage.app",
